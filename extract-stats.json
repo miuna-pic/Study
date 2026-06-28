@@ -9,5 +9,14 @@
   "pdf_single": 49,
   "pdf_multiple": 35,
   "docx_single": 15,
-  "docx_multiple": 10
+  "docx_multiple": 10,
+  "added_docx_file": "全套试题（含题干+答案）(1).docx",
+  "added_docx_loaded": 69,
+  "added_docx_single": 43,
+  "added_docx_multiple": 26,
+  "added_docx_kept": 39,
+  "added_docx_duplicates_removed": 30,
+  "merged_total_after_added_docx": 175,
+  "single_total_after_added_docx": 106,
+  "multiple_total_after_added_docx": 69
 }
