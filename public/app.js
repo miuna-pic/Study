@@ -1,5 +1,5 @@
 const allQuestions = window.QUIZ_DATA || [];
-const storeKey = "xigai-quiz-record-v1";
+const storeKey = "xigai-quiz-record-v2";
 const state = {
   pool: [], index: 0, answers: {}, submitted: {}, exam: false, showAnswers: false,
   records: JSON.parse(localStorage.getItem(storeKey) || "{}")
@@ -46,7 +46,9 @@ function buildPool() {
   } else if (scope === "multiple") {
     pool = allQuestions.filter(q => q.type === "multiple");
   }
-  return els.shuffleToggle.checked ? shuffle(pool) : [...pool];
+  const singles = pool.filter(q => q.type === "single");
+  const multiples = pool.filter(q => q.type === "multiple");
+  return els.shuffleToggle.checked ? [...shuffle(singles), ...shuffle(multiples)] : [...singles, ...multiples];
 }
 function startQuiz() {
   state.pool = buildPool();
@@ -74,7 +76,7 @@ function renderQuestion() {
   if (!q) return;
   const selected = getSelected(q.id);
   const submitted = Object.prototype.hasOwnProperty.call(state.submitted, q.id);
-  els.progressText.textContent = `第 ${state.index + 1} / ${state.pool.length} 题 · 原题号 ${q.id}`;
+  els.progressText.textContent = `第 ${state.index + 1} / ${state.pool.length} 题 · ${q.type === "multiple" ? "多选区" : "单选区"} · 题号 ${q.id}`;
   els.questionTitle.textContent = q.displayQuestion;
   els.typeBadge.textContent = q.type === "multiple" ? "多选" : "单选";
   els.optionList.innerHTML = q.options.map(opt => {
@@ -160,11 +162,18 @@ function renderAnswerSheet(show = state.showAnswers) {
   els.answerSheet.classList.toggle("hidden", !show);
   els.toggleAnswersBtn.textContent = show ? "隐藏全部答案" : "显示全部答案";
   if (!show) return;
-  els.answerSheet.innerHTML = allQuestions.map(q => {
-    const rec = state.records[q.id];
-    const status = rec ? (rec.wrong ? "错题" : "正确") : "未做";
-    return `<div class="answer-row"><strong>${q.id}</strong><span>${escapeHtml(q.displayQuestion)}</span><b>${q.answer} · ${status}</b></div>`;
-  }).join("");
+  const grouped = [
+    ["单选题", allQuestions.filter(q => q.type === "single")],
+    ["多选题", allQuestions.filter(q => q.type === "multiple")]
+  ];
+  els.answerSheet.innerHTML = grouped.map(([title, list]) => `
+    <h4 class="answer-group-title">${title}（${list.length}题）</h4>
+    ${list.map(q => {
+      const rec = state.records[q.id];
+      const status = rec ? (rec.wrong ? "错题" : "正确") : "未做";
+      return `<div class="answer-row"><strong>${q.id}</strong><span>${escapeHtml(q.displayQuestion)}</span><b>${q.answer} · ${status}</b></div>`;
+    }).join("")}
+  `).join("");
 }
 function updateButtons() {
   els.prevBtn.disabled = state.index <= 0;
