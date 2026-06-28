@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>习概选择题答题练习</title>
+  <meta name="description" content="习概选择题在线答题练习，支持单选、多选、错题本、随机练习和考试模式。" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">习</span>
+      <div>
+        <h1>习概选择题答题练习</h1>
+        <p>60 题 · 单选 / 多选 · 即时判分 · 错题本</p>
+      </div>
+    </div>
+    <button id="themeBtn" class="ghost" type="button">深浅色</button>
+  </header>
+
+  <main class="layout">
+    <section class="hero card">
+      <div>
+        <p class="eyebrow">Question Bank</p>
+        <h2>把 Word 题库变成可刷题网页</h2>
+        <p class="muted">练习模式会每题即时反馈；考试模式会完成后统一判分。多选题必须选全且不多选才算正确。</p>
+      </div>
+      <div class="stats">
+        <div><strong id="totalCount">60</strong><span>总题数</span></div>
+        <div><strong id="doneCount">0</strong><span>已完成</span></div>
+        <div><strong id="rightRate">0%</strong><span>正确率</span></div>
+      </div>
+    </section>
+
+    <aside class="panel card">
+      <h3>练习设置</h3>
+      <label class="field">
+        <span>模式</span>
+        <select id="modeSelect">
+          <option value="practice">练习模式：每题即时反馈</option>
+          <option value="exam">考试模式：最后统一交卷</option>
+        </select>
+      </label>
+      <label class="field">
+        <span>范围</span>
+        <select id="scopeSelect">
+          <option value="all">全部题目</option>
+          <option value="wrong">只练错题</option>
+          <option value="single">只练单选</option>
+          <option value="multiple">只练多选</option>
+        </select>
+      </label>
+      <label class="switch">
+        <input id="shuffleToggle" type="checkbox" checked />
+        <span>随机题序</span>
+      </label>
+      <div class="actions">
+        <button id="startBtn" class="primary" type="button">开始答题</button>
+        <button id="resetBtn" class="danger" type="button">清空记录</button>
+      </div>
+      <div class="mini">
+        <span id="wrongCount">错题 0</span>
+        <span id="multiCount">多选 0</span>
+      </div>
+    </aside>
+
+    <section class="quiz card">
+      <div class="quiz-head">
+        <div>
+          <p id="progressText" class="eyebrow">准备开始</p>
+          <h2 id="questionTitle">点击“开始答题”</h2>
+        </div>
+        <span id="typeBadge" class="badge">--</span>
+      </div>
+      <div id="optionList" class="options"></div>
+      <div id="feedback" class="feedback hidden"></div>
+      <div class="quiz-actions">
+        <button id="prevBtn" class="ghost" type="button">上一题</button>
+        <button id="submitBtn" class="primary" type="button">提交本题</button>
+        <button id="nextBtn" class="ghost" type="button">下一题</button>
+        <button id="finishBtn" class="primary hidden" type="button">交卷</button>
+      </div>
+    </section>
+
+    <section class="review card">
+      <div class="review-title">
+        <h3>答题结果</h3>
+        <button id="toggleAnswersBtn" class="ghost" type="button">显示全部答案</button>
+      </div>
+      <div id="resultBox" class="result-box muted">还没有提交记录。</div>
+      <div id="answerSheet" class="answer-sheet hidden"></div>
+    </section>
+  </main>
+
+  <script src="./questions.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
