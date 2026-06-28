@@ -1,0 +1,11 @@
+{
+  "name": "xigai-quiz-vercel",
+  "version": "1.0.1",
+  "private": true,
+  "scripts": {
+    "build": "node -e \"const fs=require('fs'); fs.mkdirSync('public', {recursive:true}); console.log('static quiz site ready: public/');\"",
+    "start": "npx serve public"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
